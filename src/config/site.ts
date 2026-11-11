@@ -28,18 +28,17 @@ export const site = {
   contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT ?? "",
 
   /**
-   * Approved logo assets. Drop the supplied files into /public/brand and set
-   * the paths here. While a path is empty the site renders the text wordmark
-   * only — it never draws a substitute symbol.
-   *
-   *  - symbol:        the yellow S symbol on its own (SVG preferred)
-   *  - symbolOnDark:  optional variant for black backgrounds (falls back to `symbol`)
-   *
-   * For the favicon, add the symbol as src/app/icon.svg (or icon.png).
+   * Approved logo lockup (symbol + wordmark), extracted from the brand
+   * styleboard. Replace the files in /public/brand with vector (SVG) masters
+   * when available and update the paths and intrinsic size here.
+   * The favicon / app icon lives in src/app/icon.png and apple-icon.png.
    */
   logo: {
-    symbol: "",
-    symbolOnDark: "",
+    onLight: "/brand/szn-labs-logo.png",
+    onDark: "/brand/szn-labs-logo-on-dark.png",
+    symbol: "/brand/szn-labs-symbol.png",
+    width: 662,
+    height: 155,
   },
 
   nav: [

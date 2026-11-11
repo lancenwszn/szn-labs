@@ -9,33 +9,26 @@ type LogoProps = {
 };
 
 /**
- * SZN Labs logo lockup: approved symbol (when supplied in site.logo) + wordmark.
- * The symbol is rendered untouched at its native aspect ratio.
+ * Approved SZN Labs lockup (symbol + wordmark), rendered untouched at its
+ * native aspect ratio. Asset paths live in site.logo.
  */
 export function Logo({ tone = "light", className = "", onClick }: LogoProps) {
-  const symbol =
-    tone === "dark"
-      ? site.logo.symbolOnDark || site.logo.symbol
-      : site.logo.symbol;
-
+  const { width, height } = site.logo;
   return (
     <Link
       href="/"
       onClick={onClick}
       aria-label={`${site.name} — home`}
-      className={`inline-flex items-center gap-2.5 ${className}`}
+      className={`inline-flex shrink-0 items-center ${className}`}
     >
-      {symbol ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={symbol} alt="" className="h-7 w-auto" />
-      ) : null}
-      <span
-        className={`text-[19px] font-bold tracking-tight ${
-          tone === "dark" ? "text-paper" : "text-ink"
-        }`}
-      >
-        SZN Labs
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={tone === "dark" ? site.logo.onDark : site.logo.onLight}
+        alt={site.name}
+        width={width}
+        height={height}
+        className="h-9 w-auto"
+      />
     </Link>
   );
 }

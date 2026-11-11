@@ -12,8 +12,8 @@ npm run dev
 | What | Where |
 | --- | --- |
 | Contact email, form endpoint, site URL | `.env` (see `.env.example`) or `src/config/site.ts` |
-| Logo symbol | put the approved file in `public/brand/`, set `logo.symbol` in `src/config/site.ts` |
-| Favicon | add the symbol as `src/app/icon.svg` (or `icon.png`) |
+| Logo | files in `public/brand/`, paths in `logo` in `src/config/site.ts` (currently PNGs extracted from the styleboard; swap in SVG masters when available) |
+| Favicon / app icon | `src/app/icon.png`, `src/app/apple-icon.png` |
 | Products | append to the array in `src/data/products.ts` |
 | Brand colors and type | `@theme` block in `src/app/globals.css` |
 | Privacy / Terms text | `src/app/privacy/page.tsx`, `src/app/terms/page.tsx` |
