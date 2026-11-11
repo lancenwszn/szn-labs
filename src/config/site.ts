@@ -28,17 +28,18 @@ export const site = {
   contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT ?? "",
 
   /**
-   * Approved logo lockup (symbol + wordmark), extracted from the brand
-   * styleboard. Replace the files in /public/brand with vector (SVG) masters
-   * when available and update the paths and intrinsic size here.
+   * Approved logo lockup: the supplied high-resolution symbol plus the
+   * wordmark taken from the brand styleboard. Replace the files in
+   * /public/brand with vector (SVG) masters when available and update the
+   * paths and intrinsic size here.
    * The favicon / app icon lives in src/app/icon.png and apple-icon.png.
    */
   logo: {
     onLight: "/brand/szn-labs-logo.png",
     onDark: "/brand/szn-labs-logo-on-dark.png",
     symbol: "/brand/szn-labs-symbol.png",
-    width: 662,
-    height: 155,
+    width: 1324,
+    height: 310,
   },
 
   nav: [

@@ -12,7 +12,7 @@ npm run dev
 | What | Where |
 | --- | --- |
 | Contact email, form endpoint, site URL | `.env` (see `.env.example`) or `src/config/site.ts` |
-| Logo | files in `public/brand/`, paths in `logo` in `src/config/site.ts` (currently PNGs extracted from the styleboard; swap in SVG masters when available) |
+| Logo | files in `public/brand/`, paths in `logo` in `src/config/site.ts` (supplied symbol + wordmark taken from the styleboard; swap in SVG masters when available) |
 | Favicon / app icon | `src/app/icon.png`, `src/app/apple-icon.png` |
 | Products | append to the array in `src/data/products.ts` |
 | Brand colors and type | `@theme` block in `src/app/globals.css` |
