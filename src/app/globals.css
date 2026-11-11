@@ -58,20 +58,38 @@ body {
     @apply inline-flex h-12 items-center justify-center gap-2 rounded-lg px-6 text-[15px] font-medium transition-[background-color,color,border-color,transform] duration-200 active:scale-[0.98];
   }
 
+  /* Electric yellow with ink text: 13.6:1 contrast. Inverts to ink on hover. */
   .btn-primary {
-    @apply bg-ink text-paper hover:bg-yellow hover:text-ink;
+    @apply bg-yellow text-ink hover:bg-ink hover:text-paper;
   }
 
   .btn-secondary {
     @apply border border-stone text-ink hover:border-ink;
   }
 
-  .btn-accent {
-    @apply bg-yellow text-ink hover:bg-paper;
+  .prose-legal h2 {
+    @apply mt-12 text-xl font-semibold tracking-tight text-ink;
+  }
+
+  .prose-legal p,
+  .prose-legal ul {
+    @apply mt-4;
+  }
+
+  .prose-legal ul {
+    @apply list-disc space-y-2 pl-5;
+  }
+
+  .prose-legal a {
+    @apply text-ink underline decoration-yellow decoration-2 underline-offset-4;
   }
 
   .field {
     @apply w-full rounded-lg border border-stone bg-paper px-4 py-3 text-[15px] text-ink transition-colors duration-200 placeholder:text-ink-soft/70 hover:border-ink-soft focus:border-ink focus:outline-none focus:ring-2 focus:ring-yellow;
+  }
+
+  .field[aria-invalid="true"] {
+    @apply border-ink;
   }
 }
 

@@ -3,57 +3,105 @@
 import { useState, type FormEvent } from "react";
 import { ArrowRight, Mail } from "lucide-react";
 import { site } from "@/config/site";
+import {
+  contactFields,
+  validateContact,
+  type ContactErrors,
+  type ContactField,
+} from "@/lib/contact";
 import { Reveal } from "./Reveal";
 
-type State =
+type Status =
   | { kind: "idle" }
   | { kind: "sending" }
   | { kind: "sent" }
   | { kind: "error"; message: string };
 
+const labels: Record<ContactField, string> = {
+  name: "Name",
+  email: "Email",
+  subject: "Subject",
+  message: "Message",
+};
+
+function Label({ name }: { name: ContactField }) {
+  return (
+    <label htmlFor={`contact-${name}`} className="mb-2 block text-sm font-medium">
+      {labels[name]}
+    </label>
+  );
+}
+
+function Problem({ name, errors }: { name: ContactField; errors: ContactErrors }) {
+  return errors[name] ? (
+    <p id={`contact-${name}-error`} className="mt-2 text-sm font-medium">
+      <span aria-hidden="true" className="mr-1.5 inline-block h-2 w-2 bg-yellow" />
+      {errors[name]}
+    </p>
+  ) : null;
+}
+
 export function Contact() {
-  const [state, setState] = useState<State>({ kind: "idle" });
-  const { contactEmail, contactFormEndpoint } = site;
+  const [status, setStatus] = useState<Status>({ kind: "idle" });
+  const [errors, setErrors] = useState<ContactErrors>({});
+  const { contactEmail } = site;
+
+  const fallback = contactEmail
+    ? `Your message couldn't be sent. Please try again, or email ${contactEmail}.`
+    : "Your message couldn't be sent. Please try again in a moment.";
+
+  function showErrors(form: HTMLFormElement, next: ContactErrors) {
+    setErrors(next);
+    const first = contactFields.find((f) => next[f]);
+    if (first) (form.elements.namedItem(first) as HTMLElement | null)?.focus();
+  }
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form)) as Record<string, string>;
+    const data = Object.fromEntries(new FormData(form));
+    const { values, errors: found } = validateContact(data);
 
-    if (contactFormEndpoint) {
-      setState({ kind: "sending" });
-      try {
-        const res = await fetch(contactFormEndpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
-        });
-        if (!res.ok) throw new Error();
+    if (Object.keys(found).length > 0) {
+      setStatus({ kind: "idle" });
+      showErrors(form, found);
+      return;
+    }
+
+    setErrors({});
+    setStatus({ kind: "sending" });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...values, company: data.company ?? "" }),
+      });
+      if (res.ok) {
         form.reset();
-        setState({ kind: "sent" });
-      } catch {
-        setState({
-          kind: "error",
-          message: "Your message couldn't be sent. Please try again in a moment.",
-        });
+        setStatus({ kind: "sent" });
+        return;
       }
-      return;
+      const body = await res.json().catch(() => null);
+      if (res.status === 400 && body?.errors) {
+        setStatus({ kind: "idle" });
+        showErrors(form, body.errors);
+        return;
+      }
+      setStatus({ kind: "error", message: fallback });
+    } catch {
+      setStatus({ kind: "error", message: fallback });
     }
-
-    if (contactEmail) {
-      const body = `${data.message}\n\n— ${data.name} (${data.email})`;
-      window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(
-        data.subject,
-      )}&body=${encodeURIComponent(body)}`;
-      return;
-    }
-
-    setState({
-      kind: "error",
-      message:
-        "This form isn't connected yet. Our contact address will be published here shortly.",
-    });
   }
+
+  const field = (name: ContactField) => ({
+    id: `contact-${name}`,
+    name,
+    "aria-invalid": errors[name] ? true : undefined,
+    "aria-describedby": errors[name] ? `contact-${name}-error` : undefined,
+    onChange: () =>
+      errors[name] && setErrors((prev) => ({ ...prev, [name]: undefined })),
+    className: "field",
+  });
 
   return (
     <section id="contact" className="border-t border-mist">
@@ -88,45 +136,66 @@ export function Contact() {
         </Reveal>
 
         <Reveal delay={120}>
-          <form onSubmit={onSubmit} className="grid gap-5 sm:grid-cols-2">
-            <label className="block">
-              <span className="mb-2 block text-sm font-medium">Name</span>
-              <input name="name" required autoComplete="name" className="field" />
-            </label>
-            <label className="block">
-              <span className="mb-2 block text-sm font-medium">Email</span>
+          <form
+            onSubmit={onSubmit}
+            noValidate
+            className="grid gap-5 sm:grid-cols-2"
+          >
+            <div>
+              <Label name="name" />
+              <input {...field("name")} autoComplete="name" maxLength={100} />
+              <Problem name="name" errors={errors} />
+            </div>
+            <div>
+              <Label name="email" />
               <input
-                name="email"
+                {...field("email")}
                 type="email"
-                required
                 autoComplete="email"
-                className="field"
+                maxLength={254}
               />
-            </label>
-            <label className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-medium">Subject</span>
-              <input name="subject" required className="field" />
-            </label>
-            <label className="block sm:col-span-2">
-              <span className="mb-2 block text-sm font-medium">Message</span>
-              <textarea name="message" required rows={6} className="field resize-y" />
-            </label>
+              <Problem name="email" errors={errors} />
+            </div>
+            <div className="sm:col-span-2">
+              <Label name="subject" />
+              <input {...field("subject")} maxLength={150} />
+              <Problem name="subject" errors={errors} />
+            </div>
+            <div className="sm:col-span-2">
+              <Label name="message" />
+              <textarea
+                {...field("message")}
+                rows={6}
+                maxLength={5000}
+                className="field resize-y"
+              />
+              <Problem name="message" errors={errors} />
+            </div>
+
+            {/* Honeypot for bots; hidden from people and assistive tech. */}
+            <div aria-hidden="true" className="hidden">
+              <label>
+                Company
+                <input name="company" tabIndex={-1} autoComplete="off" />
+              </label>
+            </div>
 
             <div className="flex flex-col gap-4 sm:col-span-2 sm:flex-row sm:items-center">
               <button
                 type="submit"
-                disabled={state.kind === "sending"}
-                className="btn btn-primary group disabled:opacity-60"
+                disabled={status.kind === "sending"}
+                className="btn btn-primary group shrink-0 disabled:opacity-60"
               >
-                {state.kind === "sending" ? "Sending…" : "Send Message"}
+                {status.kind === "sending" ? "Sending…" : "Send Message"}
                 <ArrowRight
                   size={18}
                   className="transition-transform duration-200 group-hover:translate-x-0.5"
                 />
               </button>
               <p role="status" aria-live="polite" className="text-sm text-ink-soft">
-                {state.kind === "sent" && "Thanks — your message has been sent."}
-                {state.kind === "error" && state.message}
+                {status.kind === "sent" &&
+                  "Thanks — your message has been sent. We'll be in touch."}
+                {status.kind === "error" && status.message}
               </p>
             </div>
           </form>

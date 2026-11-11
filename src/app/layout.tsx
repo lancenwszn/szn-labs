@@ -14,16 +14,16 @@ export const metadata: Metadata = {
   },
   description: site.description,
   applicationName: site.name,
-  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: site.name,
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
     url: "/",
+    locale: "en_US",
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${site.name} — ${site.tagline}`,
     description: site.description,
   },
@@ -38,6 +38,7 @@ const jsonLd = {
   slogan: site.tagline,
   description: site.description,
   url: site.url,
+  logo: `${site.url}/icon.png`,
 };
 
 export default function RootLayout({

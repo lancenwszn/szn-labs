@@ -1,7 +1,7 @@
 /**
  * Central site configuration.
  * Everything that is expected to change (contact address, logo assets,
- * form endpoint, public URL) lives here.
+ * public URL) lives here.
  */
 export const site = {
   name: "SZN Labs",
@@ -12,20 +12,25 @@ export const site = {
     "An independent software company building apps and digital products for what's next.",
 
   /** Public URL of the deployed site. Set NEXT_PUBLIC_SITE_URL in production. */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : "http://localhost:3000")
+  ).replace(/\/$/, ""),
 
   /**
    * Official contact address. Not provided yet, so it stays empty and the UI
    * shows a neutral placeholder. Set NEXT_PUBLIC_CONTACT_EMAIL (or edit here).
+   * Contact form delivery is configured separately — see .env.example.
    */
   contactEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
 
   /**
-   * Optional endpoint the contact form POSTs JSON to (e.g. a form service or
-   * your own API route). When empty, the form falls back to opening the
-   * visitor's mail client addressed to `contactEmail`.
+   * Shows a "Draft for review" notice on the Privacy Policy and Terms pages.
+   * Set to false once the legal text has been reviewed and approved.
    */
-  contactFormEndpoint: process.env.NEXT_PUBLIC_CONTACT_FORM_ENDPOINT ?? "",
+  legalDraft: true,
 
   /**
    * Approved logo lockup: the supplied high-resolution symbol plus the

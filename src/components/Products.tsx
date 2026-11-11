@@ -12,27 +12,86 @@ function StatusBadge({ status }: { status: Product["status"] }) {
   );
 }
 
+function VisitProduct({ product }: { product: Product }) {
+  return product.url ? (
+    <a
+      href={product.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="btn btn-primary group h-10 px-4 text-sm"
+    >
+      Visit Product
+      <ArrowUpRight
+        size={16}
+        className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+      />
+      <span className="sr-only"> — {product.name} (opens in a new tab)</span>
+    </a>
+  ) : (
+    <span className="text-sm text-ink-soft">Website coming soon</span>
+  );
+}
+
+function ProductMark({ product, large }: { product: Product; large?: boolean }) {
+  return (
+    <span
+      className={`flex items-center justify-center overflow-hidden font-bold ${
+        large
+          ? "h-24 w-24 rounded-2xl bg-yellow text-5xl sm:h-28 sm:w-28"
+          : "h-12 w-12 rounded-lg bg-mist text-lg"
+      }`}
+    >
+      {product.icon ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={product.icon} alt="" className="h-full w-full object-contain" />
+      ) : (
+        <span aria-hidden="true">{product.name.charAt(0)}</span>
+      )}
+    </span>
+  );
+}
+
+function FeaturedProduct({ product }: { product: Product }) {
+  return (
+    <article className="grid overflow-hidden rounded-xl border border-mist md:grid-cols-[1.2fr_1fr]">
+      <div className="flex flex-col p-8 sm:p-12">
+        <div className="flex flex-wrap items-center gap-3">
+          <StatusBadge status={product.status} />
+          {product.category ? <p className="eyebrow">{product.category}</p> : null}
+        </div>
+        <h3 className="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">
+          {product.name}
+        </h3>
+        <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
+          {product.description}
+        </p>
+        <div className="mt-auto pt-8">
+          <VisitProduct product={product} />
+        </div>
+      </div>
+      <div className="flex min-h-48 items-center justify-center border-t border-mist bg-mist/50 p-8 sm:p-12 md:border-l md:border-t-0">
+        <ProductMark product={product} large />
+      </div>
+    </article>
+  );
+}
+
 function ProductCard({ product }: { product: Product }) {
   return (
     <article className="flex h-full flex-col rounded-xl border border-mist bg-paper p-7 transition-colors duration-200 hover:border-ink">
       <div className="flex items-start justify-between gap-4">
-        <span className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg bg-mist text-lg font-bold">
-          {product.icon ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={product.icon}
-              alt=""
-              className="h-full w-full object-contain"
-            />
-          ) : (
-            product.name.charAt(0)
-          )}
-        </span>
+        <ProductMark product={product} />
         <StatusBadge status={product.status} />
       </div>
 
-      <p className="eyebrow mt-8">{product.category}</p>
-      <h3 className="mt-2 text-xl font-semibold tracking-tight">
+      {product.category ? (
+        <p className="eyebrow mt-8">{product.category}</p>
+      ) : null}
+      <h3
+        className={`text-xl font-semibold tracking-tight ${
+          product.category ? "mt-2" : "mt-8"
+        }`}
+      >
         {product.name}
       </h3>
       <p className="mt-3 leading-relaxed text-ink-soft">
@@ -40,23 +99,7 @@ function ProductCard({ product }: { product: Product }) {
       </p>
 
       <div className="mt-auto pt-8">
-        {product.url ? (
-          <a
-            href={product.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn btn-primary group h-10 px-4 text-sm"
-          >
-            Visit Product
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-            <span className="sr-only"> — {product.name} (opens in a new tab)</span>
-          </a>
-        ) : (
-          <span className="text-sm text-ink-soft">Website coming soon</span>
-        )}
+        <VisitProduct product={product} />
       </div>
     </article>
   );
@@ -97,6 +140,8 @@ function ComingSoon() {
 }
 
 export function Products() {
+  const featured = products.filter((p) => p.featured);
+  const rest = products.filter((p) => !p.featured);
   return (
     <section id="products">
       <div className="container-x py-20 lg:py-32">
@@ -120,15 +165,24 @@ export function Products() {
               <ComingSoon />
             </Reveal>
           ) : (
-            <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {products.map((product, i) => (
-                <li key={product.name}>
-                  <Reveal delay={(i % 3) * 90} className="h-full">
-                    <ProductCard product={product} />
-                  </Reveal>
-                </li>
+            <div className="space-y-4">
+              {featured.map((product) => (
+                <Reveal key={product.name}>
+                  <FeaturedProduct product={product} />
+                </Reveal>
               ))}
-            </ul>
+              {rest.length > 0 ? (
+                <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {rest.map((product, i) => (
+                    <li key={product.name}>
+                      <Reveal delay={(i % 3) * 90} className="h-full">
+                        <ProductCard product={product} />
+                      </Reveal>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
           )}
         </div>
       </div>
