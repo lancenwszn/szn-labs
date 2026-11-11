@@ -3,6 +3,15 @@
  * Everything that is expected to change (contact address, logo assets,
  * public URL) lives here.
  */
+function resolveSiteUrl(): string {
+  const raw =
+    process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+    process.env.VERCEL_PROJECT_PRODUCTION_URL?.trim() ||
+    "http://localhost:3000";
+  const withScheme = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  return withScheme.replace(/\/+$/, "");
+}
+
 export const site = {
   name: "SZN Labs",
   tagline: "Ideas Become Products.",
@@ -11,13 +20,14 @@ export const site = {
   shortDescription:
     "An independent software company building apps and digital products for what's next.",
 
-  /** Public URL of the deployed site. Set NEXT_PUBLIC_SITE_URL in production. */
-  url: (
-    process.env.NEXT_PUBLIC_SITE_URL ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "http://localhost:3000")
-  ).replace(/\/$/, ""),
+  /**
+   * Public URL of the deployed site, used for canonical URLs, the sitemap,
+   * robots.txt and Open Graph / social tags. Resolved at build time from:
+   *   1. NEXT_PUBLIC_SITE_URL (set this to the final domain), else
+   *   2. Vercel's production domain for the project, else
+   *   3. localhost for local development.
+   */
+  url: resolveSiteUrl(),
 
   /**
    * Official contact address. Not provided yet, so it stays empty and the UI

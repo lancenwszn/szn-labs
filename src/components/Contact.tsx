@@ -87,7 +87,13 @@ export function Contact() {
         showErrors(form, body.errors);
         return;
       }
-      setStatus({ kind: "error", message: fallback });
+      setStatus({
+        kind: "error",
+        message:
+          res.status === 429
+            ? "You've sent several messages in a short time. Please try again in a few minutes."
+            : fallback,
+      });
     } catch {
       setStatus({ kind: "error", message: fallback });
     }
