@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactRoute, LegalPage } from "@/components/LegalPage";
+import { site } from "@/config/site";
+
+const title = "Privacy Policy";
+const description = "How SZN Labs handles personal information on this website.";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description: "How SZN Labs handles personal information on this website.",
+  title,
+  description,
   alternates: { canonical: "/privacy" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${title} — ${site.name}`,
+    description,
+    url: "/privacy",
+    locale: "en_US",
+  },
 };
 
 export default function Privacy() {

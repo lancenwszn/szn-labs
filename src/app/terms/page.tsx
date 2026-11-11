@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactRoute, LegalPage } from "@/components/LegalPage";
+import { site } from "@/config/site";
+
+const title = "Terms of Service";
+const description = "The terms that apply to using the SZN Labs website.";
 
 export const metadata: Metadata = {
-  title: "Terms of Service",
-  description: "The terms that apply to using the SZN Labs website.",
+  title,
+  description,
   alternates: { canonical: "/terms" },
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    title: `${title} — ${site.name}`,
+    description,
+    url: "/terms",
+    locale: "en_US",
+  },
 };
 
 export default function Terms() {
