@@ -40,10 +40,11 @@ export const products: Product[] = [
     name: "PaprPop!",
     tagline: "Make every page yours.",
     description:
-      "A playful and creative digital notebook for students, creatives, and young professionals. PaprPop! is currently in development and not yet available.",
+      "A playful and creative digital notebook for students, creatives, and young professionals. PaprPop! is currently in development.",
     category: "Digital Notebook",
     status: "In Development",
     featured: true,
     logo: "/products/paprpop-logo.webp",
+    url: "https://papr-pop.vercel.app/",
   },
 ];
