@@ -13,7 +13,7 @@ export function LegalPage({ title, updated, children }: LegalPageProps) {
   return (
     <main id="main" className="container-x py-20 lg:py-28">
       <p className="eyebrow">Legal</p>
-      <h1 className="mt-5 text-4xl font-bold tracking-tight sm:text-5xl">{title}</h1>
+      <h1 className="mt-5 text-4xl font-semibold tracking-tight sm:text-5xl">{title}</h1>
       <p className="mt-4 text-sm text-ink-soft">Last updated: {updated}</p>
 
       {site.legalDraft ? (

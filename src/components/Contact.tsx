@@ -122,7 +122,7 @@ export function Contact() {
           </p>
 
           <div className="mt-10 flex items-center gap-4">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-yellow">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-ink text-yellow">
               <Mail size={20} strokeWidth={1.75} aria-hidden="true" />
             </span>
             <div>

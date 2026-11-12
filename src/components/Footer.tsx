@@ -30,7 +30,7 @@ export function Footer() {
             <p className="mt-5 max-w-xs leading-relaxed text-stone">
               {site.shortDescription}
             </p>
-            <p className="mt-6 font-mono text-xs uppercase tracking-[0.18em] text-yellow">
+            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.16em] text-yellow">
               {site.tagline}
             </p>
           </div>
@@ -38,7 +38,7 @@ export function Footer() {
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 sm:grid-cols-3">
             {columns.map((col) => (
               <div key={col.title}>
-                <h2 className="font-mono text-xs uppercase tracking-[0.18em] text-stone">
+                <h2 className="text-xs font-semibold uppercase tracking-[0.16em] text-stone">
                   {col.title}
                 </h2>
                 <ul className="mt-4 space-y-3">

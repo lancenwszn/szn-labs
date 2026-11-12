@@ -1,13 +1,13 @@
-import { AppWindow, Lightbulb, Rocket } from "lucide-react";
+import { AppWindow, Lightbulb, RefreshCw, Rocket, Target } from "lucide-react";
 import { Reveal } from "./Reveal";
 
 export function About() {
   return (
-    <section id="about" className="border-t border-mist">
-      <div className="container-x grid gap-10 py-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:py-32">
+    <section id="about">
+      <div className="container-x grid gap-10 py-20 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:py-28">
         <Reveal>
           <p className="eyebrow">About SZN Labs</p>
-          <h2 className="h2 mt-5">
+          <h2 className="h2 mt-4">
             Built Around Ideas. Driven by Possibilities.
           </h2>
         </Reveal>
@@ -50,24 +50,27 @@ const areas = [
 
 export function WhatWeDo() {
   return (
-    <section id="what-we-do" className="bg-mist">
-      <div className="container-x py-20 lg:py-32">
-        <Reveal>
-          <p className="eyebrow">What We Do</p>
-          <h2 className="h2 mt-5 max-w-2xl">We Build Digital Products.</h2>
+    <section id="what-we-do" className="on-dark bg-ink text-paper">
+      <div className="container-x py-20 lg:py-28">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow !text-yellow">What We Do</p>
+          <h2 className="h2 mt-4">We Build Digital Products.</h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-16">
+        <div className="mt-12 grid gap-4 md:grid-cols-3 lg:mt-14">
           {areas.map(({ icon: Icon, title, body }, i) => (
             <Reveal key={title} delay={i * 90} className="h-full">
-              <article className="flex h-full flex-col rounded-xl bg-paper p-7 lg:p-8">
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-yellow">
-                  <Icon size={22} strokeWidth={1.75} aria-hidden="true" />
-                </span>
-                <h3 className="mt-10 text-xl font-semibold tracking-tight">
+              <article className="flex h-full flex-col rounded-md border border-paper/10 bg-paper/5 p-7 lg:p-8">
+                <Icon
+                  size={26}
+                  strokeWidth={1.75}
+                  aria-hidden="true"
+                  className="text-yellow"
+                />
+                <h3 className="mt-8 text-lg font-semibold tracking-tight">
                   {title}
                 </h3>
-                <p className="mt-3 leading-relaxed text-ink-soft">{body}</p>
+                <p className="mt-3 leading-relaxed text-stone">{body}</p>
               </article>
             </Reveal>
           ))}
@@ -79,14 +82,17 @@ export function WhatWeDo() {
 
 const principles = [
   {
+    icon: Lightbulb,
     title: "Think Differently",
     body: "Challenge assumptions and explore better possibilities.",
   },
   {
+    icon: Target,
     title: "Build Intentionally",
     body: "Focus on usability, simplicity, and meaningful solutions.",
   },
   {
+    icon: RefreshCw,
     title: "Keep Evolving",
     body: "Improve continuously and never stop exploring what's next.",
   },
@@ -94,34 +100,27 @@ const principles = [
 
 export function Philosophy() {
   return (
-    <section id="philosophy" className="on-dark bg-ink text-paper">
-      <div className="container-x py-20 lg:py-32">
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:gap-20">
-          <Reveal>
-            <p className="eyebrow !text-yellow">Our Philosophy</p>
-            <h2 className="h2 mt-5">A New Season of Building.</h2>
-          </Reveal>
-          <Reveal delay={120} className="space-y-4 text-lg leading-relaxed text-stone lg:pt-10">
-            <p>We believe there is always room to build something better.</p>
-            <p>
-              We experiment, learn, improve, and create products that bring
-              ideas to life.
-            </p>
-          </Reveal>
-        </div>
+    <section id="philosophy" className="bg-yellow text-ink">
+      <div className="container-x py-20 lg:py-28">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow !text-ink">Our Philosophy</p>
+          <h2 className="h2 mt-4">A New Season of Building.</h2>
+          <p className="mt-5 text-lg leading-relaxed text-ink/85">
+            We believe there is always room to build something better. We
+            experiment, learn, improve, and create products that bring ideas
+            to life.
+          </p>
+        </Reveal>
 
-        <ol className="mt-14 grid md:grid-cols-3 lg:mt-20">
-          {principles.map((p, i) => (
-            <li
-              key={p.title}
-              className="border-t border-paper/20 py-8 md:border-l md:border-t-0 md:px-8 md:py-2 md:first:border-l-0 md:first:pl-0"
-            >
-              <Reveal delay={i * 90}>
-                <span className="mb-6 block h-1 w-8 bg-yellow" />
-                <h3 className="text-2xl font-semibold tracking-tight">
-                  {p.title}
-                </h3>
-                <p className="mt-3 leading-relaxed text-stone">{p.body}</p>
+        <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8 lg:mt-14">
+          {principles.map(({ icon: Icon, title, body }, i) => (
+            <li key={title}>
+              <Reveal delay={i * 90} className="flex flex-col items-center text-center">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-ink text-yellow">
+                  <Icon size={24} strokeWidth={1.75} aria-hidden="true" />
+                </span>
+                <h3 className="mt-5 text-lg font-bold tracking-tight">{title}</h3>
+                <p className="mt-2 max-w-xs leading-relaxed text-ink/85">{body}</p>
               </Reveal>
             </li>
           ))}

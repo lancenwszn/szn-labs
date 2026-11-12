@@ -43,19 +43,19 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-sm text-ink-soft transition-colors duration-200 hover:text-ink"
+              className="text-sm font-medium text-ink-soft transition-colors duration-200 hover:text-ink"
             >
               {item.label}
             </Link>
           ))}
-          <Link href="/#contact" className="btn btn-primary h-10 px-4 text-sm">
+          <Link href="/#contact" className="btn btn-primary h-10 px-5">
             Contact
           </Link>
         </nav>
 
         <button
           type="button"
-          className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded-lg md:hidden"
+          className="-mr-2 inline-flex h-11 w-11 items-center justify-center rounded md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           aria-label={open ? "Close menu" : "Open menu"}

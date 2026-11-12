@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 function StatusBadge({ status }: { status: Product["status"] }) {
   const live = status === "Live";
   return (
-    <span className="inline-flex items-center gap-2 rounded-md border border-stone px-2.5 py-1 font-mono text-[11px] uppercase tracking-[0.12em]">
+    <span className="inline-flex items-center gap-2 rounded-sm border border-stone px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.12em]">
       <span className={`h-1.5 w-1.5 rounded-full ${live ? "bg-ink" : "bg-yellow"}`} />
       {status}
     </span>
@@ -18,7 +18,7 @@ function VisitProduct({ product }: { product: Product }) {
       href={product.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="btn btn-primary group h-10 px-4 text-sm"
+      className="btn btn-primary group h-10 px-5"
     >
       Visit Product
       <ArrowUpRight
@@ -37,8 +37,8 @@ function ProductMark({ product, large }: { product: Product; large?: boolean }) 
     <span
       className={`flex items-center justify-center overflow-hidden font-bold ${
         large
-          ? "h-24 w-24 rounded-2xl bg-yellow text-5xl sm:h-28 sm:w-28"
-          : "h-12 w-12 rounded-lg bg-mist text-lg"
+          ? "h-24 w-24 rounded-lg bg-yellow text-5xl text-ink sm:h-28 sm:w-28"
+          : "h-12 w-12 rounded bg-mist text-lg"
       }`}
     >
       {product.icon ? (
@@ -53,13 +53,13 @@ function ProductMark({ product, large }: { product: Product; large?: boolean }) 
 
 function FeaturedProduct({ product }: { product: Product }) {
   return (
-    <article className="grid overflow-hidden rounded-xl border border-mist md:grid-cols-[1.2fr_1fr]">
+    <article className="grid overflow-hidden rounded-md border border-mist md:grid-cols-[1.2fr_1fr]">
       <div className="flex flex-col p-8 sm:p-12">
         <div className="flex flex-wrap items-center gap-3">
           <StatusBadge status={product.status} />
           {product.category ? <p className="eyebrow">{product.category}</p> : null}
         </div>
-        <h3 className="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">
+        <h3 className="mt-8 text-3xl font-semibold tracking-tight sm:text-4xl">
           {product.name}
         </h3>
         <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
@@ -69,7 +69,7 @@ function FeaturedProduct({ product }: { product: Product }) {
           <VisitProduct product={product} />
         </div>
       </div>
-      <div className="flex min-h-48 items-center justify-center border-t border-mist bg-mist/50 p-8 sm:p-12 md:border-l md:border-t-0">
+      <div className="flex min-h-48 items-center justify-center bg-ink p-8 sm:p-12">
         <ProductMark product={product} large />
       </div>
     </article>
@@ -78,7 +78,7 @@ function FeaturedProduct({ product }: { product: Product }) {
 
 function ProductCard({ product }: { product: Product }) {
   return (
-    <article className="flex h-full flex-col rounded-xl border border-mist bg-paper p-7 transition-colors duration-200 hover:border-ink">
+    <article className="flex h-full flex-col rounded-md border border-mist bg-paper p-7 transition-colors duration-200 hover:border-ink">
       <div className="flex items-start justify-between gap-4">
         <ProductMark product={product} />
         <StatusBadge status={product.status} />
@@ -107,7 +107,7 @@ function ProductCard({ product }: { product: Product }) {
 
 function ComingSoon() {
   return (
-    <div className="grid overflow-hidden rounded-xl border border-mist md:grid-cols-[1.2fr_1fr]">
+    <div className="grid overflow-hidden rounded-md border border-mist md:grid-cols-[1.2fr_1fr]">
       <div className="p-8 sm:p-12">
         <StatusBadge status="Coming Soon" />
         <h3 className="mt-8 max-w-md text-2xl font-semibold leading-tight tracking-tight sm:text-3xl">
@@ -125,7 +125,7 @@ function ComingSoon() {
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
-            className={`flex aspect-square items-center justify-center rounded-lg ${
+            className={`flex aspect-square items-center justify-center rounded ${
               i === 0
                 ? "bg-yellow text-ink"
                 : "border border-dashed border-stone text-stone"
@@ -144,20 +144,16 @@ export function Products() {
   const rest = products.filter((p) => !p.featured);
   return (
     <section id="products">
-      <div className="container-x py-20 lg:py-32">
-        <div className="grid gap-6 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:gap-20">
-          <Reveal>
-            <p className="eyebrow">Our Products</p>
-            <h2 className="h2 mt-5">A Growing Universe of Products.</h2>
-          </Reveal>
-          <Reveal delay={120}>
-            <p className="text-lg leading-relaxed text-ink-soft">
-              Every product starts with an idea. We build independent digital
-              experiences designed around different needs, industries, and
-              audiences.
-            </p>
-          </Reveal>
-        </div>
+      <div className="container-x py-20 lg:py-28">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <p className="eyebrow">Our Products</p>
+          <h2 className="h2 mt-4">A Growing Universe of Products.</h2>
+          <p className="mt-5 text-lg leading-relaxed text-ink-soft">
+            Every product starts with an idea. We build independent digital
+            experiences designed around different needs, industries, and
+            audiences.
+          </p>
+        </Reveal>
 
         <div className="mt-12 lg:mt-16">
           {products.length === 0 ? (
