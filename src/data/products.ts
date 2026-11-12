@@ -37,10 +37,10 @@ export type Product = {
  */
 export const products: Product[] = [
   {
-    name: "PaprPop",
+    name: "PaprPop!",
     tagline: "Make every page yours.",
     description:
-      "A playful and creative digital notebook for students, creatives, and young professionals. PaprPop is currently in development and not yet available.",
+      "A playful and creative digital notebook for students, creatives, and young professionals. PaprPop! is currently in development and not yet available.",
     category: "Digital Notebook",
     status: "In Development",
     featured: true,
