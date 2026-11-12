@@ -2,6 +2,8 @@ export type ProductStatus = "Live" | "Beta" | "In Development" | "Coming Soon";
 
 export type Product = {
   name: string;
+  /** Optional product tagline, shown on the featured card. */
+  tagline?: string;
   description: string;
   /** Optional until the product's positioning is public. */
   category?: string;
@@ -36,8 +38,10 @@ export type Product = {
 export const products: Product[] = [
   {
     name: "PaprPop",
+    tagline: "Make every page yours.",
     description:
-      "PaprPop is the first product from SZN Labs. It is currently in development — details will be shared here as it gets closer to launch.",
+      "A playful and creative digital notebook for students, creatives, and young professionals. PaprPop is currently in development and not yet available.",
+    category: "Digital Notebook",
     status: "In Development",
     featured: true,
     logo: "/products/paprpop-logo.webp",

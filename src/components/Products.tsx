@@ -62,6 +62,9 @@ function FeaturedProduct({ product }: { product: Product }) {
         <h3 className="mt-8 text-3xl font-semibold tracking-tight sm:text-4xl">
           {product.name}
         </h3>
+        {product.tagline ? (
+          <p className="mt-2 text-lg font-medium">{product.tagline}</p>
+        ) : null}
         <p className="mt-4 max-w-md leading-relaxed text-ink-soft">
           {product.description}
         </p>
