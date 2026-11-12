@@ -100,16 +100,6 @@ body {
   }
 }
 
-/* Hero backdrop: a faint construction grid that fades toward the edges. */
-.hero-grid {
-  background-image:
-    linear-gradient(to right, rgb(250 249 245 / 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(250 249 245 / 0.07) 1px, transparent 1px);
-  background-size: 64px 64px;
-  background-position: center;
-  mask-image: radial-gradient(ellipse 75% 85% at center, #000 25%, transparent 78%);
-}
-
 /* Section entrance: a short rise + fade, once. */
 .reveal {
   opacity: 0;

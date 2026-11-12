@@ -8,8 +8,10 @@ export type Product = {
   status: ProductStatus;
   /** Featured products get a full-width card at the top of the section. */
   featured?: boolean;
-  /** Path to the product's logo/icon in /public, e.g. "/products/acme.svg". */
+  /** Square icon in /public, e.g. "/products/acme.svg". Used on grid cards. */
   icon?: string;
+  /** Full logo in /public, any shape. Used on the featured card. */
+  logo?: string;
   /** Product website. The "Visit Product" button is shown only when set. */
   url?: string;
 };
@@ -38,5 +40,6 @@ export const products: Product[] = [
       "PaprPop is the first product from SZN Labs. It is currently in development — details will be shared here as it gets closer to launch.",
     status: "In Development",
     featured: true,
+    logo: "/products/paprpop-logo.webp",
   },
 ];

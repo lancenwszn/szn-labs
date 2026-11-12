@@ -14,7 +14,8 @@ npm run dev
 | Site URL, contact email, form delivery | environment variables — see `.env.example` |
 | Logo | files in `public/brand/`, paths in `logo` in `src/config/site.ts` (supplied symbol + wordmark taken from the styleboard; swap in SVG masters when available) |
 | Favicon / app icon / share image | `src/app/icon.png`, `src/app/apple-icon.png`, `src/app/opengraph-image.png` |
-| Products | the array in `src/data/products.ts` |
+| Products | the array in `src/data/products.ts`; images in `public/products/` |
+| Hero artwork | `public/brand/hero.webp` (full-size originals are kept in `design/`, which is not published) |
 | Brand colors and type | `@theme` block in `src/app/globals.css` |
 | Privacy / Terms text | `src/app/privacy/page.tsx`, `src/app/terms/page.tsx` (draft notice: `legalDraft` in `src/config/site.ts`) |
 

@@ -70,7 +70,17 @@ function FeaturedProduct({ product }: { product: Product }) {
         </div>
       </div>
       <div className="flex min-h-48 items-center justify-center bg-ink p-8 sm:p-12">
-        <ProductMark product={product} large />
+        {product.logo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.logo}
+            alt={`${product.name} logo`}
+            loading="lazy"
+            className="h-auto w-full max-w-sm"
+          />
+        ) : (
+          <ProductMark product={product} large />
+        )}
       </div>
     </article>
   );
